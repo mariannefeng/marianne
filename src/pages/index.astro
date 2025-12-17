@@ -91,7 +91,6 @@ const randomVideo = videos[Math.floor(Math.random() * videos.length)];
 					localStorage.setItem('backgroundVideoTimestamp', Date.now().toString());
 				}
 				
-				// Make changeVideo available globally for the click handler
 				window.changeBackgroundVideo = function() {
 					const newVideo = selectNewVideo();
 					videoSource.src = newVideo;
