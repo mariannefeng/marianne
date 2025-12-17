@@ -5,10 +5,13 @@ import HeaderLink from './HeaderLink.astro';
 
 <header>
 	<nav>
-		<a href="/">{SITE_TITLE}</a>
+		<a href="/">
+			<span class="default">{SITE_TITLE}</span>
+			<span class="hover">marianne feng</span>
+		</a>
 		<div class="internal-links">
 			<HeaderLink href="/">home</HeaderLink>
-			<HeaderLink href="/portfolio">portfolio</HeaderLink>
+			<HeaderLink href="/portfolio">stuff</HeaderLink>
 		</div>
 	</nav>
 </header>
@@ -17,15 +20,6 @@ import HeaderLink from './HeaderLink.astro';
 		margin: 0;
 		padding: 0 1em;
 		background: white;
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
-
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
 	}
 	nav {
 		display: flex;
@@ -37,7 +31,24 @@ import HeaderLink from './HeaderLink.astro';
 		color: var(--black);
 		text-decoration: none;
 	}
-	nav a.active {
-		text-decoration: none;
+	nav > a {
+		position: relative;
+		display: inline-block;
+	}
+	nav > a .hover {
+		position: absolute;
+		left: 0;
+		top: 0;
+		opacity: 0;
+		transition: opacity 0.1s;
+		white-space: nowrap;
+		pointer-events: none;
+		padding: 1em 0.5em;
+	}
+	nav > a:hover .default {
+		opacity: 0;
+	}
+	nav > a:hover .hover {
+		opacity: 1;
 	}
 </style>

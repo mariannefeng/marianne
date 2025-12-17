@@ -7,8 +7,10 @@ const portfolio = defineCollection({
     z.object({
       title: z.string(),
       description: z.string(),
-      pubDate: z.coerce.date(),
+      url: z.string().optional(),
+      pubDate: z.coerce.date().optional(),
       updatedDate: z.coerce.date().optional(),
+      heroImage: image().optional(),
     }),
 });
 

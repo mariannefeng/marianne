@@ -9,7 +9,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 type PortfolioEntry = CollectionEntry<'portfolio'>;
 
 const posts = (await getCollection('portfolio')).sort(
-	(a: PortfolioEntry, b: PortfolioEntry) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	(a: PortfolioEntry, b: PortfolioEntry) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0),
 );
 ---
 
@@ -35,17 +35,6 @@ const posts = (await getCollection('portfolio')).sort(
 			ul li * {
 				text-decoration: none;
 				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
 			}
 			ul li img {
 				margin-bottom: 0.5rem;
@@ -95,11 +84,14 @@ const posts = (await getCollection('portfolio')).sort(
 					{
 						posts.map((post: PortfolioEntry) => (
 							<li>
-								<a href={`/portfolio/${post.id}/`}>
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
+                <a href={`/portfolio/${post.id}/`}>
+                {post.data.heroImage && (
+                  <Image width={720} height={360} src={post.data.heroImage} alt="" />
+                )}
+									<p class="title">{post.data.title}</p>
+									{post.data.pubDate && <p class="date">
 										<FormattedDate date={post.data.pubDate} />
-									</p>
+									</p>}
 								</a>
 							</li>
 						))
