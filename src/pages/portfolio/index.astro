@@ -18,19 +18,39 @@ const posts = (await getCollection('portfolio')).sort(
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
+			body::before {
+				content: '';
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0);
+				pointer-events: none;
+				z-index: 1;
+				transition: background-color 0.3s ease;
+			}
+			body:has(ul a:hover)::before {
+				background-color: rgba(0, 0, 0, 0.8);
+			}
+			header {
+				position: relative;
+				z-index: 2;
+			}
 			main {
-				width: 960px;
+				position: relative;
 			}
 			ul {
 				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
+				flex-direction: column;
+				gap: 4rem;
 				list-style-type: none;
-				margin: 0;
 				padding: 0;
+				position: relative;
 			}
 			ul li {
-				width: calc(50% - 1rem);
+				margin: 0 auto;
+				position: relative;
 			}
 			ul li * {
 				text-decoration: none;
@@ -42,19 +62,21 @@ const posts = (await getCollection('portfolio')).sort(
 			}
 			ul li a {
 				display: block;
+				position: relative;
+				z-index: 0;
+			}
+			ul li:hover {
+				position: relative;
+				z-index: 2;
+			}
+
+			ul li:hover .title {
+				color: white;
 			}
 			.title {
 				margin: 0;
 				color: rgb(var(--black));
 				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
 			}
 			ul a:hover img {
 				box-shadow: var(--box-shadow);

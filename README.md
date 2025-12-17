@@ -1,12 +1,15 @@
 todo:
 
-- mobile friendly
-- seo
 - style post overview page
 - style individual post page
-- add posthog
-- do rss feed
+- when you hover over an item on the portfolio page, the gif of the screen recording starts to play
 - make blog post images high res
+- add alt tags for images
+- do rss feed
+- mobile friendly
+- add posthog
+
+- seo
 - make speedpage insights faster
 
 done:
