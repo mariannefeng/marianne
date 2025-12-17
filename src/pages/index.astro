@@ -2,19 +2,111 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import fishVideo from '../assets/backgrounds/fish.mp4';
+import forestVideo from '../assets/backgrounds/forest.mp4';
+import lakeVideo from '../assets/backgrounds/lake.mp4';
+import mountainsVideo from '../assets/backgrounds/mountains.mp4';
+import sunsetVideo from '../assets/backgrounds/sunset.mp4';
+import turtleVideo from '../assets/backgrounds/turtle.mp4';
+import waterfallVideo from '../assets/backgrounds/waterfall.mp4';
+
+const videos = [fishVideo, forestVideo, lakeVideo, mountainsVideo, sunsetVideo, turtleVideo, waterfallVideo];
+const randomVideo = videos[Math.floor(Math.random() * videos.length)];
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			body {
+				position: relative;
+				overflow-x: hidden;
+			}
+			.video-background {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				z-index: -1;
+			}
+			body > * {
+				position: relative;
+				z-index: 1;
+			}
+			body:has(.video-background) {
+				color: white;
+			}
+			body:has(.video-background) :global(header),
+			body:has(.video-background) :global(nav a),
+			body:has(.video-background) :global(a) {
+				color: white;
+			}
+		</style>
 	</head>
 	<body>
+		<video class="video-background" autoplay loop muted playsinline id="bg-video">
+			<source src={randomVideo} type="video/mp4" id="bg-video-source" />
+		</video>
 		<Header />
-		<main>
-			<p>
-				hey hey hey
-			</p>
-		</main>
+		
+		<script define:vars={{ videos }}>
+			(function() {
+				const oneWeek = 7 * 24 * 60 * 60 * 1000;
+				const videoSource = document.getElementById('bg-video-source');
+				const video = document.getElementById('bg-video');
+				
+				if (!videoSource || !video) return;
+				
+				function getStoredVideo() {
+					const stored = localStorage.getItem('backgroundVideo');
+					const timestamp = localStorage.getItem('backgroundVideoTimestamp');
+					if (stored && timestamp) {
+						const age = Date.now() - parseInt(timestamp);
+						if (age < oneWeek) {
+							return stored;
+						}
+					}
+					return null;
+				}
+				
+				function selectNewVideo() {
+					const newVideo = videos[Math.floor(Math.random() * videos.length)];
+					localStorage.setItem('backgroundVideo', newVideo);
+					localStorage.setItem('backgroundVideoTimestamp', Date.now().toString());
+					return newVideo;
+				}
+				
+				const storedVideo = getStoredVideo();
+				if (storedVideo && storedVideo !== videoSource.src) {
+					videoSource.src = storedVideo;
+					video.load();
+				} else if (!storedVideo) {
+					localStorage.setItem('backgroundVideo', videoSource.src);
+					localStorage.setItem('backgroundVideoTimestamp', Date.now().toString());
+				}
+				
+				// Make changeVideo available globally for the click handler
+				window.changeBackgroundVideo = function() {
+					const newVideo = selectNewVideo();
+					videoSource.src = newVideo;
+					video.load();
+				};
+			})();
+			
+			document.addEventListener('DOMContentLoaded', () => {
+				const siteTitleLink = document.querySelector('header nav > a[href="/"]');
+				if (siteTitleLink) {
+					siteTitleLink.addEventListener('click', (e) => {
+						e.preventDefault();
+						if (window.changeBackgroundVideo) {
+							window.changeBackgroundVideo();
+						}
+					});
+				}
+			});
+		</script>
 	</body>
 </html>
