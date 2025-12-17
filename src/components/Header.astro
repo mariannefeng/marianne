@@ -12,7 +12,7 @@ import HeaderLink from './HeaderLink.astro';
 		<div class="internal-links">
 			<HeaderLink href="/">home</HeaderLink>
 			<HeaderLink href="/portfolio">stuff</HeaderLink>
-			<HeaderLink id="say-hi-link">say hi</HeaderLink>
+			<HeaderLink href="#" id="say-hi-link">say hi</HeaderLink>
 		</div>
 	</nav>
 </header>
@@ -59,25 +59,12 @@ import HeaderLink from './HeaderLink.astro';
 			sayHiLink.addEventListener('click', async (e) => {
 				e.preventDefault();
 				
-				const endpoint = 'https://send.api.mailtrap.io/api/send'; 
-				const method = 'POST';
-				const data = {
-					from:{"email":"hello@demomailtrap.co","name":"Mailtrap Test"},
-					to:[{"email":"feng.marianne@gmail.com"}],
-					subject:"You are awesome!",
-					text:"Congrats for sending test email with Mailtrap!",
-					category:"Integration Test"
-				};
-				
 				try {
-					const response = await fetch(endpoint, {
-						method: method,
+					const response = await fetch('/api/send-email', {
+						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${import.meta.env.PUBLIC_MAILTRAP_API_KEY}`,
-							
 						},
-						body: JSON.stringify(data),
 					});
 					
 					if (response.ok) {
@@ -85,7 +72,8 @@ import HeaderLink from './HeaderLink.astro';
 						console.log('Success:', result);
 						// Optional: show a success message to the user
 					} else {
-						console.error('Error:', response.statusText);
+						const error = await response.json();
+						console.error('Error:', error);
 					}
 				} catch (error) {
 					console.error('Request failed:', error);
