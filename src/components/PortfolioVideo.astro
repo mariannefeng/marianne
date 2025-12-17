@@ -1,17 +1,17 @@
 ---
 interface Props {
 	heroImage: string;
-	width?: number;
-	height?: number;
+	heroAlt?: string;
 	static?: boolean;
 }
 
-const { heroImage, static: staticMode = false } = Astro.props;
+const { heroImage, heroAlt, static: staticMode = false } = Astro.props;
 ---
 
 <div class="video-wrapper" data-static={staticMode}>
 	<video
 		class="portfolio-video"
+		aria-label={heroAlt}
 		preload="metadata"
 		muted
 		loop

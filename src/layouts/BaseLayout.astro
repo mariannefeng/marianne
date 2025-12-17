@@ -1,0 +1,23 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import PostHog from '../components/PostHog.astro';
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<PostHog />
+		<slot name="head" />
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>

@@ -1,23 +1,18 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import PortfolioVideo from '../../components/PortfolioVideo.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { sortPortfolioByDate } from '../../portfolio';
 
 type PortfolioEntry = CollectionEntry<'portfolio'>;
 
-const posts = (await getCollection('portfolio')).sort(
-	(a: PortfolioEntry, b: PortfolioEntry) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0),
-);
+const posts = (await getCollection('portfolio')).sort(sortPortfolioByDate);
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<style slot="head">
 			body::before {
 				content: '';
 				position: fixed;
@@ -93,29 +88,23 @@ const posts = (await getCollection('portfolio')).sort(
 				}
 			}
 		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post: PortfolioEntry) => (
-							<li>
-                <a href={`/portfolio/${post.id}/`}>
-                {post.data.heroImage && (
-                  <PortfolioVideo heroImage={post.data.heroImage} />
-                )}
-									<p class="title">{post.data.title}</p>
-									{post.data.pubDate && <p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>}
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-	</body>
-</html>
+	<Header />
+	<main>
+		<section>
+			<ul>
+				{
+					posts.map((post: PortfolioEntry) => (
+						<li>
+							<a href={`/portfolio/${post.id}/`}>
+								{post.data.heroImage && (
+									<PortfolioVideo heroImage={post.data.heroImage} heroAlt={post.data.heroAlt} />
+								)}
+								<p class="title">{post.data.title}</p>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</main>
+</BaseLayout>

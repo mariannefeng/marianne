@@ -2,7 +2,9 @@
 title: "example government internship application"
 description: "Representative Grace Meng Example Internship Application"
 heroImage: "https://assets.mariannefeng.com/portfolio/grace-meng.mp4"
+heroAlt: "Video demonstrating the steps needed to fill out an internship application"
 url: "https://suspicious-banach-28fe86.netlify.app/"
+pubDate: "Sep 16 2020"
 ---
 
 #### what does it do

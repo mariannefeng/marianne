@@ -2,7 +2,9 @@
 title: "search board game rulebooks"
 description: "Search for board game rulebooks, quickly jump to sections with keywords"
 heroImage: "https://assets.mariannefeng.com/portfolio/rule-book.mp4"
+heroAlt: "Video searching for a keyword in a board game rulebook, then searching for a particular board game rulebook. The settings modal is then toggled allowing the user to configure theme color and default rulebook language"
 url: "https://rule-book.org"
+pubDate: "Dec 10 2025"
 ---
 
 #### what does it do

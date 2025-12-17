@@ -9,8 +9,8 @@ const portfolio = defineCollection({
       description: z.string(),
       url: z.string().optional(),
       pubDate: z.coerce.date().optional(),
-      updatedDate: z.coerce.date().optional(),
       heroImage: z.string().optional(),
+      heroAlt: z.string().optional(),
     }),
 });
 

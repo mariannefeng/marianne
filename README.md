@@ -1,16 +1,17 @@
 todo:
 
-- add alt tags for images
-- do rss feed
-- mobile friendly
-- add posthog
+- fix glitchy navbar navigating + reloading
 - seo
 - make speedpage insights faster
-- remove homepage from nav bar
+- remove homepage from nav bar (necessary?)
 - add email to navbar
 
 done:
 
+- add posthog
+- add alt tags for images
+- mobile friendly
+- do rss feed
 - change link coloring ew
 - custom cursor on the other pages
 - style post overview page
