@@ -1,9 +1,9 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import PortfolioVideo from '../components/PortfolioVideo.astro';
 
 type Props = CollectionEntry<'portfolio'>['data'];
 
@@ -22,11 +22,10 @@ const { title, description, url, heroImage, pubDate, updatedDate } = Astro.props
 			.hero-image {
 				width: 100%;
 			}
-			.hero-image img {
-				display: block;
+			.hero-image :global(.video-wrapper) {
+				width: 100%;
+				max-width: 720px;
 				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
 			}
 			.prose {
 				width: 720px;
@@ -59,16 +58,14 @@ const { title, description, url, heroImage, pubDate, updatedDate } = Astro.props
 		<main>
 			<article>
 				<div class="prose">
-					{heroImage && url && <a href={url} target="_blank"><Image width={720} height={360} src={heroImage} alt="" /></a>}
-					<div class="title">
-						<div class="date">
-							{pubDate && <FormattedDate date={pubDate} />}
-							{updatedDate && <div class="last-updated-on">
-								Last updated on <FormattedDate date={updatedDate} />
-							</div>}
-						</div>
-					</div>
 					<slot />
+					{heroImage && url && (
+						<div class="hero-image">
+							<a href={url} target="_blank">
+								<PortfolioVideo heroImage={heroImage} static={true} />
+							</a>
+						</div>
+					)}
 				</div>
 			</article>
 		</main>

@@ -1,0 +1,80 @@
+---
+interface Props {
+	heroImage: string;
+	width?: number;
+	height?: number;
+	static?: boolean;
+}
+
+const { heroImage, static: staticMode = false } = Astro.props;
+---
+
+<div class="video-wrapper" data-static={staticMode}>
+	<video
+		class="portfolio-video"
+		preload="metadata"
+		muted
+		loop
+		playsinline
+	>
+		<source src={heroImage} type="video/mp4" />
+	</video>
+</div>
+
+<style>
+	.video-wrapper {
+		position: relative;
+		display: block;
+	}
+	.portfolio-video {
+		width: 100%;
+		height: auto;
+		display: block;
+		margin-bottom: 0.5rem;
+		border-radius: 12px;
+		border: 50px solid white;
+		box-sizing: border-box;
+		object-fit: cover;
+	}
+</style>
+
+<script>
+	// Play video on hover, pause when not hovering
+	document.addEventListener('DOMContentLoaded', () => {
+		const videos = document.querySelectorAll<HTMLVideoElement>('.portfolio-video');
+		
+		videos.forEach((video) => {
+			// Ensure video is paused and shows first frame on initial load
+			video.pause();
+			video.currentTime = 0;
+			
+			// Wait for metadata to load, then ensure first frame is shown
+			video.addEventListener('loadedmetadata', () => {
+				video.currentTime = 0;
+				video.pause();
+			});
+			
+			const wrapper = video.closest('.video-wrapper');
+			if (!wrapper) return;
+			
+			// Skip hover behavior if in static mode
+			if (wrapper.getAttribute('data-static') === 'true') {
+				return;
+			}
+			
+			const parentLink = wrapper.closest('a');
+			if (!parentLink) return;
+			
+			parentLink.addEventListener('mouseenter', () => {
+				video.currentTime = 0;
+				video.play().catch(() => {
+				});
+			});
+			
+			parentLink.addEventListener('mouseleave', () => {
+				video.pause();
+				video.currentTime = 0;
+			});
+		});
+	});
+</script>

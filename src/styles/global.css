@@ -25,12 +25,12 @@ body {
   word-wrap: break-word;
   overflow-wrap: break-word;
   color: rgb(var(--gray-dark));
-  font-size: 28px;
+  font-size: 20px;
   line-height: 1.7;
 }
 main {
   margin: auto;
-  padding: 3em 1em;
+  padding: 1em 1em;
 }
 h1,
 h2,
