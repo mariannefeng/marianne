@@ -7,6 +7,7 @@ todo:
 - add posthog
 - do rss feed
 - make blog post images high res
+- make speedpage insights faster
 
 done:
 
