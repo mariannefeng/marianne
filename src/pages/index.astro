@@ -2,15 +2,18 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import fishVideo from '../assets/backgrounds/fish.mp4';
-import forestVideo from '../assets/backgrounds/forest.mp4';
-import lakeVideo from '../assets/backgrounds/lake.mp4';
-import mountainsVideo from '../assets/backgrounds/mountains.mp4';
-import sunsetVideo from '../assets/backgrounds/sunset.mp4';
-import turtleVideo from '../assets/backgrounds/turtle.mp4';
-import waterfallVideo from '../assets/backgrounds/waterfall.mp4';
 
-const videos = [fishVideo, forestVideo, lakeVideo, mountainsVideo, sunsetVideo, turtleVideo, waterfallVideo];
+const VIDEO_BASE_URL='https://assets.mariannefeng.com/'
+
+const videos = [
+	`${VIDEO_BASE_URL}fish.mp4`,
+	`${VIDEO_BASE_URL}forest.mp4`,
+	`${VIDEO_BASE_URL}lake.mp4`,
+	`${VIDEO_BASE_URL}mountains.mp4`,
+	`${VIDEO_BASE_URL}sunset.mp4`,
+	`${VIDEO_BASE_URL}turtle.mp4`,
+	`${VIDEO_BASE_URL}waterfall.mp4`
+];
 const randomVideo = videos[Math.floor(Math.random() * videos.length)];
 ---
 

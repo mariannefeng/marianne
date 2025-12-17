@@ -11,6 +11,7 @@ todo:
 
 done:
 
+- make it so that the homepage renders a large image
 - hover over menu name it changes into english version
 - update content
 - add images
