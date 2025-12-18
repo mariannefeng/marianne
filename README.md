@@ -1,14 +1,15 @@
 todo:
 
+- fix submit button on mobile
 - fix glitchy navbar navigating + reloading
 - seo
 - make speedpage insights faster
 - remove homepage from nav bar (necessary?)
-- add email to navbar
 
 done:
 
 - add posthog
+- add email to navbar
 - add alt tags for images
 - mobile friendly
 - do rss feed
