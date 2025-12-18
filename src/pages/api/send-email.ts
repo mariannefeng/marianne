@@ -1,6 +1,8 @@
+import type { APIContext } from "astro";
+
 export const prerender = false;
 
-export async function POST() {
+export async function POST(Astro: APIContext) {
   const mailtrapApiKey = import.meta.env.MAILTRAP_API_KEY;
 
   if (!mailtrapApiKey) {
@@ -13,14 +15,27 @@ export async function POST() {
     );
   }
 
+  let name = "Unknown";
+  let email = "unknown@example.com";
+
+  try {
+    const body = await Astro.request.json();
+    name = body.name || name;
+    email = body.email || email;
+  } catch (error) {}
+
   const endpoint = "https://send.api.mailtrap.io/api/send";
-  const data = {
-    from: { email: "hello@demomailtrap.co", name: "Mailtrap Test" },
+  const data: any = {
+    from: { email: "hello@mariannefeng.com", name: "Friendly Stranger" },
     to: [{ email: "feng.marianne@gmail.com" }],
-    subject: "You are awesome!",
-    text: "Congrats for sending test email with Mailtrap!",
-    category: "Integration Test",
+    subject: `New message from ${name}`,
+    text: `${name} says hi`,
+    category: "Contact Form",
   };
+
+  if (email !== "unknown@example.com") {
+    data.cc = [{ email: email }];
+  }
 
   try {
     const response = await fetch(endpoint, {
