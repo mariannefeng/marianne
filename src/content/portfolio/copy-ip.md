@@ -5,6 +5,7 @@ heroImage: "https://assets.mariannefeng.com/portfolio/copy-ip.mp4"
 heroAlt: "Video demonstrating that going to copy-ip.com will copy your public IP address to clipboard"
 url: "https://copy-ip.com"
 pubDate: "Dec 08 2025"
+tags: [software]
 ---
 
 #### what does it do
