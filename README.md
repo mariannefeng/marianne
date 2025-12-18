@@ -1,13 +1,11 @@
 todo:
 
-- fix submit button on mobile
-- fix glitchy navbar navigating + reloading
 - seo
 - make speedpage insights faster
-- remove homepage from nav bar (necessary?)
 
 done:
 
+- fix submit button on mobile
 - add posthog
 - add email to navbar
 - add alt tags for images
