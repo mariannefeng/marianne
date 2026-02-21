@@ -1,11 +1,11 @@
 ---
 title: "easily copy your public IP"
-description: "Go to page to copy your public IP"
+description: "Go to a website and copy your public IP on load"
 heroImage: "https://assets.mariannefeng.com/portfolio/copy-ip.mp4"
 heroAlt: "Video demonstrating that going to copy-ip.com will copy your public IP address to clipboard"
 url: "https://copy-ip.com"
+githubUrl: "https://github.com/mariannefeng/copi"
 pubDate: "Dec 08 2025"
-tags: [software]
 ---
 
 #### what does it do

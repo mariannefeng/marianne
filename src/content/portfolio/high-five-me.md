@@ -1,11 +1,12 @@
 ---
 title: "high five a stranger or two"
-description: "Click anywhere on the page to attempt to high five"
+description: "High five a stranger"
 heroImage: "https://assets.mariannefeng.com/portfolio/high-five-me.mp4"
 heroAlt: "Video demonstrating the loneliness of a one handed high five"
 url: "https://high-five-me.com"
-pubDate: "Dec 18 2025"
-tags: [software, art]
+githubUrl: "https://github.com/mariannefeng/high-five-me"
+pubDate: "Dec 09 2025"
+tags: [fun]
 ---
 
 #### what does it do

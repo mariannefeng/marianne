@@ -13,79 +13,78 @@ const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) =
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<style slot="head">
-			body::before {
-				content: '';
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background-color: rgba(0, 0, 0, 0);
-				pointer-events: none;
-				z-index: 1;
-				transition: background-color 0.3s ease;
-			}
-			body:has(ul a:hover)::before {
-				background-color: rgba(0, 0, 0, 0.8);
-			}
 			header {
 				position: relative;
 				z-index: 2;
 			}
 			main {
-				position: relative;
+				margin-top: 2em;
+				margin-bottom: 2em;
 			}
 			ul {
 				display: flex;
 				flex-wrap: wrap;
+				flex-direction: column;
 				gap: 4rem;
 				list-style-type: none;
 				padding: 0;
 				position: relative;
-				justify-content: flex-start;
-			}
-			ul li {
-				flex: 0 0 calc(50% - 2rem);
-				position: relative;
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li video {
-				padding: 10px;
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-				position: relative;
-				z-index: 0;
-			}
-			ul li:hover {
-				position: relative;
-				z-index: 2;
+				justify-content: center;
+				max-width: 600px;
+				margin: 0 auto;
 			}
 
-			ul li:hover .title {
-				color: white;
+			ul li * {
+				text-decoration: none;
+			}
+
+			ul li {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				position: relative;
 			}
 			.title {
 				margin: 0;
 				color: rgb(var(--black));
 				line-height: 1;
 			}
-			ul a:hover video {
-				box-shadow: var(--box-shadow);
+
+			.tag {
+				border-radius: 1em;
+				min-width: 5em;
+				text-align: center;
+				font-size: .9em;
 			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					flex: 0 0 100%;
-					text-align: center;
-				}
+
+			.tags {
+				display: flex;
+				gap: 0.5em;
+			}
+
+			p.description {
+				margin-top: 0;
+			}
+
+			a.project-link {
+				min-width: 90%;
+			}
+
+			/* One avatar per row, alternating Namu/Rocky, peeking from the left on hover */
+			.floating-avatar {
+				position: absolute;
+				left: -50px;
+				top: 50%;
+				transform: translateY(-50%) rotate(270deg);
+				width: 25px;
+				height: 25px;
+				pointer-events: none;
+				opacity: 0;
+				transition: opacity 0.1s linear;
+				z-index: 1;
+			}
+			ul li:hover .floating-avatar {
+				opacity: 1;
 			}
 		</style>
 	<Header />
@@ -93,14 +92,19 @@ const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) =
 		<section>
 			<ul>
 				{
-					posts.map((post: PortfolioEntry) => (
+					posts.map((post: PortfolioEntry, i: number) => (
 						<li>
-							<a href={`/portfolio/${post.id}/`}>
-								{post.data.heroImage && (
-									<PortfolioVideo heroImage={post.data.heroImage} heroAlt={post.data.heroAlt} />
-								)}
-								<p class="title">{post.data.title}</p>
+							<img class="floating-avatar" src={i % 2 === 0 ? '/namu.svg' : '/rocky.svg'} alt="" width="25" height="25" aria-hidden="true" />
+							<a class="project-link" href={post.data.url ? post.data.url : `/portfolio/${post.id}/`} target={post.data.url ? "_blank" : "_self"}>
+								<p class="description">{post.data.description}</p>
+								<div class="tags">
+								{post.data.tags?.map((tag) => (
+									<span class=`tag tag-${tag}`>{tag}</span>
+								))}
+								</div>
 							</a>
+
+							<a href={post.data.githubUrl} target="_blank" rel="noopener noreferrer"><img src="/github.svg" alt="GitHub" height="24" width="24"/></a>
 						</li>
 					))
 				}

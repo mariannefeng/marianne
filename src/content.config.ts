@@ -13,6 +13,7 @@ const portfolio = defineCollection({
       heroAlt: z.string().optional(),
       tags: z.array(z.string()).optional(),
       draft: z.boolean().optional(),
+      githubUrl: z.string().url(),
     }),
 });
 

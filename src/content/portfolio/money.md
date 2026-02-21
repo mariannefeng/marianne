@@ -1,8 +1,9 @@
 ---
-title: "the cheapest way possible to make your ideas come to life"
-description: "the commune manifesto"
+title: "run multiple backends on one server"
+description: "How I run multiple backends costing $6/month"
+tags: [how-to]
 draft: true
-tags: [software, devops]
+githubUrl: "https://github.com/mariannefeng/one-server"
 ---
 
 - posthog
