@@ -8,7 +8,9 @@ import { sortPortfolioByDate } from '../../portfolio';
 
 type PortfolioEntry = CollectionEntry<'portfolio'>;
 
-const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) => !post.data.draft).sort(sortPortfolioByDate);
+console.log('show draft', import.meta.env.SHOW_DRAFT);
+
+const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) => import.meta.env.SHOW_DRAFT === 'true' || !post.data.draft).sort(sortPortfolioByDate);
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>

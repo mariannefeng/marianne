@@ -77,15 +77,15 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 1rem 0;
   color: rgb(var(--black));
   line-height: 1.2;
 }
 h1 {
-  font-size: 3.052em;
+  font-size: 2.8em;
 }
 h2 {
-  font-size: 2.441em;
+  font-size: 2em;
 }
 h3 {
   font-size: 1.953em;
@@ -117,9 +117,27 @@ table {
   width: 100%;
 }
 img {
-  max-width: 100%;
+  max-width: 75%;
   height: auto;
+  margin-bottom: 1em;
 }
+
+.prose img.full {
+  max-width: 100%;
+}
+.prose img.three-quarters {
+  max-width: 75%;
+}
+.prose img.half {
+  max-width: 50%;
+}
+.prose img.less-than-half {
+  max-width: 45%;
+}
+.prose img.third {
+  max-width: 33.333%;
+}
+
 code {
   padding: 2px 5px;
   background-color: rgb(var(--gray-light));
@@ -128,6 +146,7 @@ code {
 pre {
   padding: 1.5em;
   border-radius: 8px;
+  font-size: 1rem;
 }
 pre > code {
   all: unset;

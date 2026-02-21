@@ -40,11 +40,17 @@ const { title, description, url, heroImage, heroAlt } = Astro.props;
 			.title h1 {
 				margin: 0 0 0.5em 0;
 			}
+			.prose :global(.apostrophe-fix-right) {
+				margin-right: -0.7em;
+			}
+			.prose :global(.apostrophe-fix-left) {
+				margin-left: -0.7em;
+			}
 		</style>
 	<Header />
 	<main>
 		<article>
-			<div class="prose">
+			<div class="prose apostrophe-fix-root">
 				<slot />
 				{heroImage && url && (
 					<div class="hero-image">
@@ -56,4 +62,45 @@ const { title, description, url, heroImage, heroAlt } = Astro.props;
 			</div>
 		</article>
 	</main>
+	<script>
+		// Left/right curly single + left/right curly double (smartypants)
+		const CURLY_LEFT = "\u2018\u201C";  // left single, left double
+		const CURLY_QUOTES = CURLY_LEFT + "\u2019\u201D";
+		function walkTextNodes(node: Node, fn: (textNode: Text) => void): void {
+			if (node.nodeType === Node.TEXT_NODE) {
+				fn(node as Text);
+				return;
+			}
+			if (node.nodeType === Node.ELEMENT_NODE) {
+				if ((node as Element).tagName === "PRE") return;
+				Array.from(node.childNodes).forEach((child) => walkTextNodes(child, fn));
+			}
+		}
+		document.querySelectorAll(".apostrophe-fix-root").forEach((root) => {
+			walkTextNodes(root, (textNode: Text) => {
+				const text = textNode.textContent ?? "";
+				const hasCurly = [...CURLY_QUOTES].some((c) => text.includes(c));
+				if (!hasCurly) return;
+				const fragment = document.createDocumentFragment();
+				let run = "";
+				for (let i = 0; i < text.length; i++) {
+					const ch = text[i];
+					if (CURLY_QUOTES.includes(ch)) {
+						if (run.length) {
+							fragment.appendChild(document.createTextNode(run));
+							run = "";
+						}
+						const span = document.createElement("span");
+						span.className = CURLY_LEFT.includes(ch) ? "apostrophe-fix-left" : "apostrophe-fix-right";
+						span.textContent = ch;
+						fragment.appendChild(span);
+					} else {
+						run += ch;
+					}
+				}
+				if (run.length) fragment.appendChild(document.createTextNode(run));
+				textNode.parentNode?.replaceChild(fragment, textNode);
+			});
+		});
+	</script>
 </BaseLayout>
