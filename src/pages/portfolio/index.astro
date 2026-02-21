@@ -70,6 +70,10 @@ const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) =
 				min-width: 90%;
 			}
 
+			a.github-link {
+				padding: .5em;
+			}
+
 			/* One avatar per row, alternating Namu/Rocky, peeking from the left on hover */
 			.floating-avatar {
 				position: absolute;
@@ -104,7 +108,7 @@ const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) =
 								</div>
 							</a>
 
-							<a href={post.data.githubUrl} target="_blank" rel="noopener noreferrer"><img src="/github.svg" alt="GitHub" height="24" width="24"/></a>
+							<a class="github-link" href={post.data.githubUrl} target="_blank" rel="noopener noreferrer"><img src="/github.svg" alt="GitHub" height="24" width="24"/></a>
 						</li>
 					))
 				}
