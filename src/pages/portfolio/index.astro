@@ -81,7 +81,6 @@ const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) =
 				top: 50%;
 				transform: translateY(-50%) rotate(270deg);
 				width: 25px;
-				height: 25px;
 				pointer-events: none;
 				opacity: 0;
 				transition: opacity 0.1s linear;
@@ -98,7 +97,7 @@ const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) =
 				{
 					posts.map((post: PortfolioEntry, i: number) => (
 						<li>
-							<img class="floating-avatar" src={i % 2 === 0 ? '/namu.svg' : '/rocky.svg'} alt="" width="25" height="25" aria-hidden="true" />
+							<img class="floating-avatar" src={i % 2 === 0 ? '/namu.png' : '/rocky.png'} alt="Rocky or Namu" width="25" height="25" aria-hidden="true" />
 							<a class="project-link" href={post.data.url ? post.data.url : `/portfolio/${post.id}/`} target={post.data.url ? "_blank" : "_self"}>
 								<p class="description">{post.data.description}</p>
 								<div class="tags">
