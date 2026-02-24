@@ -12,9 +12,7 @@ const { title, description, url, heroImage, heroAlt } = Astro.props;
 <BaseLayout title={title} description={description}>
 	<style slot="head">
 			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
+				margin-bottom: 2em;
 			}
 			.hero-image {
 				width: 100%;
@@ -52,13 +50,6 @@ const { title, description, url, heroImage, heroAlt } = Astro.props;
 		<article>
 			<div class="prose apostrophe-fix-root">
 				<slot />
-				{heroImage && url && (
-					<div class="hero-image">
-						<a href={url} target="_blank">
-							<PortfolioVideo heroImage={heroImage} heroAlt={heroAlt} static={true} />
-						</a>
-					</div>
-				)}
 			</div>
 		</article>
 	</main>
