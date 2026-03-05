@@ -122,10 +122,6 @@ img {
 }
 
 @media (min-width: 720px) {
-  img {
-    max-width: 75%;
-  }
-
   .prose img.full {
     max-width: 100%;
   }

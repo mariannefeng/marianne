@@ -14,6 +14,7 @@ const portfolio = defineCollection({
       tags: z.array(z.string()).optional(),
       draft: z.boolean().optional(),
       githubUrl: z.string().url(),
+      swaggerUrl: z.string().url().optional(),
     }),
 });
 

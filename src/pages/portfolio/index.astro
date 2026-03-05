@@ -69,11 +69,7 @@ const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) =
 			}
 
 			a.project-link {
-				min-width: 90%;
-			}
-
-			a.github-link {
-				padding: .5em;
+				max-width: 70%;
 			}
 
 			/* One avatar per row, alternating Namu/Rocky, peeking from the left on hover */
@@ -89,6 +85,23 @@ const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) =
 				z-index: 1;
 			}
 			ul li:hover .floating-avatar {
+				opacity: 1;
+			}
+
+			li .link-icons {
+				display: flex;
+				gap: .6em;
+			}
+			li a img.link-icon {
+				height: 30px;
+				width: 30px;
+				max-width: none;
+				margin-bottom: 0;
+				opacity: .7;
+			}
+
+			li a img.link-icon:hover {
+				transform: scale(1.15);
 				opacity: 1;
 			}
 		</style>
@@ -109,7 +122,16 @@ const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) =
 								</div>
 							</a>
 
-							<a class="github-link" href={post.data.githubUrl} target="_blank" rel="noopener noreferrer"><img src="/github.svg" alt="GitHub" height="24" width="24"/></a>
+							<div class="link-icons">
+								{post.data.swaggerUrl && (
+									<a href={post.data.swaggerUrl} target="_blank" rel="noopener noreferrer">
+										<img class="link-icon" src="/swagger.svg" alt="Swagger"/>
+									</a>
+								)}
+								<a href={post.data.githubUrl} target="_blank" rel="noopener noreferrer">
+									<img class="link-icon" src="/github.svg" alt="GitHub"/>
+								</a>
+							</div>
 						</li>
 					))
 				}

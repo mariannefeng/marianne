@@ -6,6 +6,7 @@ heroAlt: "Video searching for a keyword in a board game rulebook, then searching
 url: "https://rule-book.org"
 pubDate: "Dec 10 2025"
 githubUrl: "https://github.com/mariannefeng/rulebook"
+swaggerUrl: "https://api.rule-book.org/swagger"
 ---
 
 #### what does it do
