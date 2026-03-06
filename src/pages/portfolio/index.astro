@@ -2,18 +2,14 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
-import PortfolioVideo from '../../components/PortfolioVideo.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import { sortPortfolioByDate } from '../../portfolio';
 
 type PortfolioEntry = CollectionEntry<'portfolio'>;
 
-console.log('show draft', import.meta.env.SHOW_DRAFT);
-
 const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) => import.meta.env.SHOW_DRAFT === 'true' || !post.data.draft).sort(sortPortfolioByDate);
 ---
 
-<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<BaseLayout title="marianne's stuff" description="all sorts of random stuff that marianne's made">
 	<style slot="head">
 			header {
 				position: relative;

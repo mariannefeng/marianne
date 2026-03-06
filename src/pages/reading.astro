@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import BooksList from '../components/BooksList';
+---
+
+<BaseLayout title="marianne's reading list" description="Marianne's reading list">
+  <style slot="head">
+    section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  </style>
+  <Header />
+  <main>
+    <section>
+      <h3 style="text-align: center;">rating books</h3>
+      <BooksList client:load />
+    </section>
+  </main>
+</BaseLayout>

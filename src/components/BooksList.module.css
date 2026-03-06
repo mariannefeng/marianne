@@ -1,0 +1,103 @@
+body {
+  background-image: url("https://assets.mariannefeng.com/books/graph-paper.png");
+  background-size: auto;
+}
+
+.booksLoading {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.bookRow {
+  display: flex;
+  gap: 1rem;
+}
+
+.bookRow img {
+  margin-bottom: 0;
+}
+
+ul.booksList {
+  margin-top: 0;
+  list-style: none;
+  border-radius: 0.5rem;
+  padding-left: 0;
+  padding-top: 1rem;
+}
+
+.booksListContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.bookInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.bookAuthor {
+  padding-left: 0.5rem;
+  color: darkslategrey;
+  text-align: right;
+}
+
+.bookHr {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+.bookArrowContainer {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  width: 50px;
+  flex-shrink: 0;
+}
+
+.bookArrow {
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  .bookArrowContainer {
+    position: fixed;
+    top: 50%;
+    height: auto;
+    width: auto;
+    z-index: 10;
+  }
+
+  .bookArrowContainer:first-child {
+    left: 0;
+  }
+
+  .bookArrowContainer:last-child {
+    right: 0;
+  }
+
+  .bookArrow {
+    width: 40px;
+  }
+}
+
+.bookReviewFooter {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.bookReviewFooter span {
+  font-style: italic;
+}
+
+.bookReview {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 720px) {
+  ul.booksList {
+    padding: 2rem;
+  }
+}
