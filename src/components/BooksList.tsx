@@ -11,6 +11,7 @@ interface Review {
   book_author: string;
   book_link?: string;
   rating?: number;
+  avg_rating?: number;
   text?: string;
   published_on: string;
 }
@@ -145,6 +146,12 @@ export default function BooksList() {
                 r.rating != null
                   ? Math.min(5, Math.max(0, Math.round(r.rating)))
                   : 0;
+
+              const avgRating =
+                r.avg_rating != null
+                  ? Math.min(5, Math.max(0, Math.round(r.avg_rating)))
+                  : 0;
+
               const dateStr = formatDate(r.published_on);
 
               return (
@@ -165,8 +172,17 @@ export default function BooksList() {
                   </div>
                   <div>
                     <div className={styles.bookReviewFooter}>
-                      <span>{dateStr}</span>
-                      <StarRating rating={rating} />
+                      <div className={styles.bookReviewRating}>
+                        <span>goodreads: </span>
+                        <div className={styles.bookingReviewAvgRating}>
+                          <StarRating rating={avgRating} />
+                          <span>({r.avg_rating})</span>
+                        </div>
+                      </div>
+                      <div className={styles.bookReviewRating}>
+                        <span>me: </span>
+                        <StarRating rating={rating} />
+                      </div>
                     </div>
                     {r.text?.trim() && (
                       <div
@@ -174,6 +190,7 @@ export default function BooksList() {
                         dangerouslySetInnerHTML={{ __html: r.text }}
                       />
                     )}
+                    <span className={styles.bookReviewDate}>{dateStr}</span>
                   </div>
 
                   {i < reviews.length - 1 && (

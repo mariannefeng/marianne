@@ -83,8 +83,6 @@ ul.booksList {
 }
 
 .bookReviewFooter {
-  display: flex;
-  justify-content: space-between;
   margin-top: 0.5rem;
 }
 
@@ -93,11 +91,42 @@ ul.booksList {
 }
 
 .bookReview {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+}
+
+.bookReviewRating {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.3rem;
+}
+
+.bookingReviewAvgRating {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+@media (max-width: 720px) {
+  .bookingReviewAvgRating {
+    flex-direction: row-reverse;
+  }
+}
+
+.bookReviewDate {
+  font-size: 1rem;
+  text-align: right;
+  width: 100%;
+  display: block;
 }
 
 @media (min-width: 720px) {
   ul.booksList {
     padding: 2rem;
+  }
+
+  .bookReviewFooter {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
   }
 }
