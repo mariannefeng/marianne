@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
 import styles from "./BooksList.module.css";
 
-const API_URL = "https://api.piratereads.com/140474195/reviews";
+const API_URL = "https://api.piratereads.com/140474195/read";
 const PER_PAGE = 30;
 
-interface Review {
+interface Book {
   book_title: string;
   book_cover_small?: string;
   book_cover_medium?: string;
   book_author: string;
   book_link?: string;
-  rating?: number;
   avg_rating?: number;
-  text?: string;
-  published_on: string;
+
+  rating?: number;
+  review_text?: string;
+  review_published_on: string;
 }
 
-interface ReviewsResponse {
+interface BooksResponse {
   count?: number;
-  reviews?: Review[];
+  books?: Book[];
 }
 
 function formatDate(dateStr: string | undefined): string {
@@ -65,8 +66,6 @@ function fixQuoteFonts(root: Element) {
     let run = "";
     for (const ch of text) {
       if (LATIN_QUOTES.includes(ch)) {
-        console.log("found latin quote", ch);
-
         if (run) {
           fragment.appendChild(document.createTextNode(run));
           run = "";
@@ -87,7 +86,7 @@ function fixQuoteFonts(root: Element) {
 export default function BooksList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviews, setReviews] = useState<Book[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -100,8 +99,8 @@ export default function BooksList() {
         if (!res.ok) throw new Error(`Failed to load reviews: ${res.status}`);
         return res.json();
       })
-      .then((data: ReviewsResponse) => {
-        setReviews(data.reviews ?? []);
+      .then((data: BooksResponse) => {
+        setReviews(data.books ?? []);
       })
       .catch((e) => {
         setError(e instanceof Error ? e.message : "Could not load reviews.");
@@ -152,7 +151,7 @@ export default function BooksList() {
                   ? Math.min(5, Math.max(0, Math.round(r.avg_rating)))
                   : 0;
 
-              const dateStr = formatDate(r.published_on);
+              const dateStr = formatDate(r.review_published_on);
 
               return (
                 <li key={`${r.book_title}-${i}`}>
@@ -184,10 +183,10 @@ export default function BooksList() {
                         <StarRating rating={rating} />
                       </div>
                     </div>
-                    {r.text?.trim() && (
+                    {r.review_text?.trim() && (
                       <div
                         className={styles.bookReview}
-                        dangerouslySetInnerHTML={{ __html: r.text }}
+                        dangerouslySetInnerHTML={{ __html: r.review_text }}
                       />
                     )}
                     <span className={styles.bookReviewDate}>{dateStr}</span>
