@@ -10,4 +10,10 @@ export default defineConfig({
   site: "https://mariannefeng.com",
   adapter: vercel(),
   integrations: [react(), mdx(), sitemap()],
+  markdown: {
+    shikiConfig: {
+      theme: "andromeeda",
+      wrap: true,
+    },
+  },
 });

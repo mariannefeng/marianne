@@ -69,6 +69,11 @@ body {
       0 0,
     auto;
 }
+
+video {
+  max-width: 100%;
+}
+
 a {
   color: var(--black);
   cursor:
