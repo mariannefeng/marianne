@@ -41,6 +41,20 @@ const { title, description, headings } = Astro.props;
 				margin-left: -0.7em;
 			}
 
+			.prose :global(a.github-link) {
+				float: right;
+				padding-right: 1rem;
+			}
+			.prose :global(a.github-link img) {
+				height: 25px;
+				width: 25px;
+				margin-bottom: 0;
+			}
+
+			.prose :global(a.github-link:hover img) {
+				transform: scale(1.1);
+			}
+
 			ul.headings {
 				list-style-type: none;
 				max-width: 250px;
@@ -199,7 +213,6 @@ const { title, description, headings } = Astro.props;
 				const height = el.offsetHeight;
 				const vh = window.innerHeight;
 				const range = Math.max(height - vh, 1);
-				console.log('scrollyY:', scrollY, '/topDoc:', topDoc, '/height:', height, '/vh:', vh, '/range:', range);
 				return Math.min(1, Math.max(0, (scrollY - topDoc) / range));
 			}
 
