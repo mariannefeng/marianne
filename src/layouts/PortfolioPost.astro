@@ -2,11 +2,11 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
-import PortfolioVideo from '../components/PortfolioVideo.astro';
+import type { MarkdownHeading } from 'astro';
 
-type Props = CollectionEntry<'portfolio'>['data'];
+type Props = CollectionEntry<'portfolio'>['data'] & { headings: MarkdownHeading[] };
 
-const { title, description, url, heroImage, heroAlt } = Astro.props;
+const { title, description, headings } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -14,18 +14,14 @@ const { title, description, url, heroImage, heroAlt } = Astro.props;
 			main {
 				margin-bottom: 2em;
 			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image :global(.video-wrapper) {
-				width: 100%;
-				max-width: 720px;
-				margin: 0 auto;
+			article {
+				display: flex;
+				margin: auto;
+				justify-content: center;
 			}
 			.prose {
 				width: 720px;
 				max-width: calc(100% - 2em);
-				margin: auto;
 				padding: 1em;
 				color: rgb(var(--gray-dark));
 			}
@@ -44,6 +40,66 @@ const { title, description, url, heroImage, heroAlt } = Astro.props;
 			.prose :global(.apostrophe-fix-left) {
 				margin-left: -0.7em;
 			}
+
+			ul.headings {
+				list-style-type: none;
+				max-width: 250px;
+				font-weight: 100;
+				font-family: "jersey", sans-serif;
+				border: 1px dotted;
+				border-radius: 5px;
+				margin-top: 0;
+				line-height: 1.5;
+				padding: 1em;
+			}
+
+			ul.headings li a {
+				text-decoration: none;
+			}
+
+			@keyframes headings-link-pulse {
+				0%,
+				100% {
+					opacity: 1;
+				}
+				50% {
+					opacity: 0.7;
+				}
+			}
+
+			ul.headings li a:hover {
+				animation: headings-link-pulse 2s ease-in-out infinite;
+			}
+
+			p.table-of-contents-label {
+				font-family: "jersey", sans-serif;
+				text-align: right;	
+				width: 95%;
+				margin-bottom: 0;
+				top: 15px;
+				position: relative;
+				padding-right: 1em;
+			}
+
+			p.table-of-contents-label span {
+				background-color: white;
+				padding-left: .5em;
+				padding-right: .5em;
+			}
+
+			div.table-of-contents {
+				position: sticky;
+				top: 1.5em;
+				align-self: flex-start;
+				margin-left: 1em;
+				display: none;
+			}
+
+			@media screen and (min-width: 1024px) {
+					div.table-of-contents {
+						display: block;
+					}
+			}
 		</style>
 	<Header />
 	<main>
@@ -51,6 +107,16 @@ const { title, description, url, heroImage, heroAlt } = Astro.props;
 			<div class="prose apostrophe-fix-root">
 				<slot />
 			</div>
+			
+			<div class="table-of-contents">
+				<p class="table-of-contents-label"><span>jump to</span></p>
+				<ul class="headings">
+					{headings?.map((heading) => (
+						<li style={{ paddingLeft: `${(heading.depth - 1)* 10}px` }}><a href={`#${heading.slug}`}>{heading.text}</a></li>
+					))}
+				</ul>
+			</div>
+
 		</article>
 	</main>
 	<script>
@@ -91,6 +157,21 @@ const { title, description, url, heroImage, heroAlt } = Astro.props;
 				}
 				if (run.length) fragment.appendChild(document.createTextNode(run));
 				textNode.parentNode?.replaceChild(fragment, textNode);
+			});
+		});
+
+		function randomHeadingLinkColor(): string {
+			const h = Math.random() * 360;
+			return `hsl(${h} 72% 36%)`;
+		}
+
+		document.querySelectorAll("ul.headings li a").forEach((anchor) => {
+			const el = anchor as HTMLAnchorElement;
+			el.addEventListener("mouseenter", () => {
+				el.style.color = randomHeadingLinkColor();
+			});
+			el.addEventListener("mouseleave", () => {
+				el.style.removeProperty("color");
 			});
 		});
 	</script>

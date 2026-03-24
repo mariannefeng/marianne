@@ -1,20 +1,38 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import PortfolioPost from '../../layouts/PortfolioPost.astro';
+import type { MarkdownHeading } from 'astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('portfolio');
-	return posts.map((post: CollectionEntry<'portfolio'>) => ({
+
+  const headings = await Promise.all(
+    posts.map(async (post) => {
+      const data = await render(post);
+      return data.headings.filter((heading) => heading.depth !== 1).map((heading) => {
+				return {
+					...heading,
+					text: heading.text.toLowerCase(),
+				};
+			});
+    })
+  );
+
+	return posts.map((post: CollectionEntry<'portfolio'>, index: number) => ({
 		params: { slug: post.id },
-		props: post,
+		props: {post, headings: headings[index]},
 	}));
 }
-type Props = CollectionEntry<'portfolio'>;
 
-const post = Astro.props;
+type Props = {
+  post: CollectionEntry<'portfolio'>;
+  headings: MarkdownHeading[];
+};
+
+const {post, headings} = Astro.props;
 const { Content } = await render(post);
 ---
 
-<PortfolioPost {...post.data}>
+<PortfolioPost {...post.data} headings={headings}>
 	<Content />
 </PortfolioPost>
