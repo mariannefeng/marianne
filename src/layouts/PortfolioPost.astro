@@ -51,6 +51,14 @@ const { title, description, headings } = Astro.props;
 				margin-top: 0;
 				line-height: 1.5;
 				padding: 1em;
+
+				--toc-fill-pct: 0%;
+				background: linear-gradient(
+					to bottom,
+					#E2E0DF 0%,
+					#E2E0DF var(--toc-fill-pct),
+					transparent var(--toc-fill-pct)
+				);
 			}
 
 			ul.headings li a {
@@ -76,13 +84,14 @@ const { title, description, headings } = Astro.props;
 				text-align: right;	
 				width: 95%;
 				margin-bottom: 0;
-				top: 15px;
+				top: 13px;
 				position: relative;
 				padding-right: 1em;
 			}
 
 			p.table-of-contents-label span {
 				background-color: white;
+				border-radius: 5px;
 				padding-left: .5em;
 				padding-right: .5em;
 			}
@@ -174,5 +183,43 @@ const { title, description, headings } = Astro.props;
 				el.style.removeProperty("color");
 			});
 		});
+
+		const proseEl = document.querySelector("article .prose") as HTMLElement | null;
+		const tocEl = document.querySelector("ul.headings") as HTMLElement | null;
+		if (proseEl !== null && tocEl !== null) {
+			const prose = proseEl;
+			const toc = tocEl;
+
+			let ticking = false;
+
+			function articleReadProgress(el: HTMLElement): number {
+				const rect = el.getBoundingClientRect();
+				const scrollY = window.scrollY;
+				const topDoc = scrollY + rect.top;
+				const height = el.offsetHeight;
+				const vh = window.innerHeight;
+				const range = Math.max(height - vh, 1);
+				console.log('scrollyY:', scrollY, '/topDoc:', topDoc, '/height:', height, '/vh:', vh, '/range:', range);
+				return Math.min(1, Math.max(0, (scrollY - topDoc) / range));
+			}
+
+			function updateTocFill(): void {
+				const p = articleReadProgress(prose);
+				toc.style.setProperty("--toc-fill-pct", `${p * 100}%`);
+				ticking = false;
+			}
+
+			function onScrollOrResize(): void {
+				if (ticking) return;
+				ticking = true;
+				requestAnimationFrame(updateTocFill);
+			}
+
+			window.addEventListener("scroll", onScrollOrResize, { passive: true });
+			window.addEventListener("resize", onScrollOrResize, { passive: true });
+			new ResizeObserver(onScrollOrResize).observe(prose);
+
+			updateTocFill();
+		}
 	</script>
 </BaseLayout>
