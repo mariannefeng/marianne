@@ -69,7 +69,7 @@ Since I live in New Jersey, I wanted to display NJTransit bus times on my Kindle
 
 After poking around in the network tab of the <a href="https://www.njtransit.com/bus-to" target="_blank">NJ Transit Bus Website</a>, I found this GraphQL query that returns the bus number, arrival time, current capacity, destination, and departing time in minutes:
 
-```
+```ts
   query BusArrivalsByStopID($stopID: ID!) {
     getBusArrivalsByStopID(stopID: $stopID) {
       departingIn
@@ -84,7 +84,7 @@ After poking around in the network tab of the <a href="https://www.njtransit.com
 
 If you're also a Jersey girl, you can run the following curl to get upcoming bus times (don't forget to replace YOUR_STOP_NUMBER):
 
-```
+```bash
 curl 'https://www.njtransit.com/api/graphql/graphql' \
   -H 'accept: */*' \
   -H 'accept-language: en-US,en;q=0.9' \
@@ -153,7 +153,7 @@ Whiled SSH-ed into your Kindle, place your custom extension folder inside of `/m
 
 When you press 'Start dashboard', you can see in the <a href="https://github.com/mariannefeng/kindle-hax/blob/main/kindle/custom-dash/menu.json" target="_blank">menu.json</a> that bin/start.sh will execute. The <a href="https://github.com/mariannefeng/kindle-hax/blob/main/kindle/custom-dash/bin/start.sh" target="_blank">start script</a> has comments explaining what it does. Some interesting things I've never worked with before:
 
-```
+```bash
 # ignore HUP since kual will exit after pressing start, and that might kill our long running script
 trap '' HUP
 ...
@@ -167,7 +167,7 @@ trap! Here's a <a href="https://www.linuxjournal.com/content/bash-trap-command" 
 
 Getting rtcwake to work was also annoying. For me, calling rtcwake on the default device (skipping `-d` flag) never worked, I had to list possible devices then choose a different one. The one that reacted to the rtcwake command was `rtc1` for me
 
-```
+```bash
 do_night_suspend() {
   sync
   rtcwake -d rtc1 -m mem -s "$WAKE_IN_SECONDS"
@@ -176,20 +176,20 @@ do_night_suspend() {
 
 The `refresh_screen` function is important. This is the whole reason we did all that server and image generation stuff earlier. It retrieves an image at an endpoint, clears the screen twice, draws the image from the server and positions it slightly lower on the screen to make room for the status bar up top. The last line displays the datetime, wifi status, and battery remaining.
 
-```
+```bash
 refresh_screen() {
   curl -k "$SCREEN_URL" -o "$DIR/screen.png"
   eips -c
   eips -c
   eips -g "$DIR/screen.png" -x 0 -y 30 -w gc16
   # Draw date/time and battery at top (eips can't print %, so we strip it from gasgauge-info -c)
-  eips 1 1 "$(TZ=EST5EDT date '+%Y-%m-%d %I:%M %p') - wifi $(cat /sys/class/net/wlan0/operstate 2>/dev/null || echo '?') - battery: $(gasgauge-info -c 2>/dev/null | sed 's/%//g' || echo '?')"
+  eips 1 1 "$(date '+%Y-%m-%d %I:%M %p') - wifi $(cat /sys/class/net/wlan0/operstate 2>/dev/null || echo '?') - battery: $(gasgauge-info -c 2>/dev/null | sed 's/%//g' || echo '?')"
 }
 ```
 
 This part of the script listens for the user pressing the menu button.
 
-```
+```bash
 script -q -c "evtest /dev/input/event2 2>&1" /dev/null | grep -m 1 -q "code 102 (Home), value 1" && "$DIR/stop.sh"
 ```
 
