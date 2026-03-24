@@ -218,8 +218,16 @@ const { title, description, headings } = Astro.props;
 
 			function updateTocFill(): void {
 				const p = articleReadProgress(prose);
+				const currentlyDotted = toc.style.borderStyle === "dotted";
+
 				toc.style.setProperty("--toc-fill-pct", `${p * 100}%`);
 				ticking = false;
+
+				if (p >= 1 && currentlyDotted) {
+					toc.style.borderStyle = "solid";
+				} else if (p < 1 && !currentlyDotted) {
+					toc.style.borderStyle = "dotted";
+				}
 			}
 
 			function onScrollOrResize(): void {
