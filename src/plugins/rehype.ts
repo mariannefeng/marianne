@@ -31,7 +31,7 @@ export default function rehypeCodeWrapper() {
               href: linkUrl,
               target: "_blank",
             },
-            [h("img", { src: "/link-icon.svg" })],
+            [h("img", { src: "/code-light-icon.svg" })],
           ),
         );
       }
