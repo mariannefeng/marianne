@@ -19,6 +19,12 @@ const { title, description, headings } = Astro.props;
 				margin: auto;
 				justify-content: center;
 			}
+			main :global(img) {
+				max-width: 100%;
+  			height: auto;
+  			margin-bottom: 1em;
+			}
+
 			.prose {
 				width: 720px;
 				max-width: calc(100% - 2em);
@@ -33,12 +39,6 @@ const { title, description, headings } = Astro.props;
 			}
 			.title h1 {
 				margin: 0 0 0.5em 0;
-			}
-			.prose :global(.apostrophe-fix-right) {
-				margin-right: -0.7em;
-			}
-			.prose :global(.apostrophe-fix-left) {
-				margin-left: -0.7em;
 			}
 
 			.prose :global(a.github-link) {
@@ -122,6 +122,71 @@ const { title, description, headings } = Astro.props;
 					div.table-of-contents {
 						display: block;
 					}
+			}
+		</style>
+		<style is:global>
+
+			div.code-container {
+				background-color: #23262e;
+				overflow: hidden;
+				cursor: var(--cursor-light), auto;
+				margin-bottom: 1em;
+				border-radius: 10px;
+			}
+
+			div.code-container > div.code-footer {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				overflow: hidden;
+				padding: 0.5em 0.8em;
+				font-family: monospace !important;
+				font-size: 0.75em;
+				color: #d5ced9;
+				border-color: #d5ced9;
+				border-style: solid;
+				border-width: 1px 0px 0px 0px;
+			}
+
+			div.code-footer div.code-filename {
+				max-width: 70%;
+			}
+
+			div.code-links {
+				display: flex;
+				align-items: center;
+				gap: 1em;
+			}
+
+			div.code-links a > img {
+				height: 20px;
+				margin-bottom: 0;
+				display: flex;
+			}
+			div.code-links a {
+				cursor: var(--cursor-link-light), auto;
+			}
+
+			span.copy-link-text {
+				font-size: 0.8em;
+			}
+
+			@media (min-width: 720px) {
+				.prose img.full {
+					max-width: 100%;
+				}
+				.prose img.three-quarters {
+					max-width: 75%	;
+				}
+				.prose img.half {
+					max-width: 50%;
+				}
+				.prose img.less-than-half {
+					max-width: 45%;
+				}
+				.prose img.third {	
+					max-width: 33.333%;
+				}
 			}
 		</style>
 	<Header />

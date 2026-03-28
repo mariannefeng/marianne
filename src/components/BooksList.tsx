@@ -165,7 +165,7 @@ export default function BooksList() {
                     </a>
 
                     <div className={styles.bookInfo}>
-                      <span>{r.book_title}</span>
+                      <span className={styles.bookTitle}>{r.book_title}</span>
                       <span className={styles.bookAuthor}>{r.book_author}</span>
                     </div>
                   </div>
