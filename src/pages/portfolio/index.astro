@@ -121,11 +121,11 @@ const posts = (await getCollection('portfolio')).filter((post: PortfolioEntry) =
 							<div class="link-icons">
 								{post.data.swaggerUrl && (
 									<a href={post.data.swaggerUrl} target="_blank" rel="noopener noreferrer">
-										<img class="link-icon" src="/swagger.svg" alt="Swagger"/>
+										<img class="link-icon" src="/swagger-circle-icon.svg" alt="Swagger"/>
 									</a>
 								)}
 								<a href={post.data.githubUrl} target="_blank" rel="noopener noreferrer">
-									<img class="link-icon" src="/github.svg" alt="GitHub"/>
+									<img class="link-icon" src="/link-circle-icon.svg" alt="GitHub link"/>
 								</a>
 							</div>
 						</li>

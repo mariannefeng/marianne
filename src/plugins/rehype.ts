@@ -30,10 +30,8 @@ export default function rehypeCodeWrapper() {
             {
               href: linkUrl,
               target: "_blank",
-              rel: "noopener noreferrer",
-              ariaLabel: "View source on GitHub",
             },
-            [h("img", { src: "/github-white.svg" })],
+            [h("img", { src: "/link-icon.svg" })],
           ),
         );
       }
