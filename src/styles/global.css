@@ -213,13 +213,17 @@ div.code-links {
 }
 
 div.code-links img {
-  height: 2em;
+  height: 1.5em;
   margin-bottom: 0;
   display: flex;
 }
 
 div.code-links a {
   cursor: var(--cursor-link-light), auto;
+}
+
+span.copy-link-text {
+  font-size: 0.8em;
 }
 
 blockquote {
