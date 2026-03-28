@@ -97,7 +97,7 @@ curl 'https://www.njtransit.com/api/graphql/graphql' \
 
 #### Creating a server
 
-In the majority of the guides I read during this process (two most helpful being <a href="https://matthealy.com/kindle" target="_blank">Matt Healy's Kindle Dashboard guide</a> and <a href="https://terminalbytes.com/reviving-kindle-paperwhite-7th-gen" target="_blank">Hemant's Kindle Dashboard guide</a>) they use puppeteer to convert HTML to png. This does not work for me because I'm cheap and have a single $6 Digital Ocean droplet that I use for all side projects. Every time I ran puppeteer on it the entire server shits itself.
+In the majority of the guides I read during this process (two most helpful being <a href="https://matthealy.com/kindle" target="_blank">Matt Healy's Kindle Dashboard guide</a> and <a href="https://terminalbytes.com/reviving-kindle-paperwhite-7th-gen" target="_blank">Hemant's Kindle Dashboard guide</a>) they use puppeteer to convert HTML to png. This does not work for me because I'm cheap and have a single $6 <a href="https://www.digitalocean.com/" target="_blank">Digital Ocean</a> droplet that I use for all side projects. Every time I ran puppeteer on it the entire server shits itself.
 
 Instead I created an endpoint that formats the bus data into HTML, then the docker container that runs the server has a cron that runs the <a href="https://wkhtmltopdf.org/" target="_blank">wkhtmltoimage</a> command to generate a new png every 3 minutes using the HTML endpoint. The server then serves the generated png file at a separate endpoint.
 
@@ -136,7 +136,7 @@ Going into this, I wanted two things - an easy way to exit dashboard mode and a 
 
 The general layout is:
 
-```
+```plaintext noMenu=true
 bin/ # executable scripts here
 menu.json # controls the menu items in the KUAL dashboard
 config.xml # no clue wtf this is
@@ -153,7 +153,7 @@ Whiled SSH-ed into your Kindle, place your custom extension folder inside of `/m
 
 When you press 'Start dashboard', you can see in the <a href="https://github.com/mariannefeng/kindle-hax/blob/main/kindle/custom-dash/menu.json" target="_blank">menu.json</a> that bin/start.sh will execute. The <a href="https://github.com/mariannefeng/kindle-hax/blob/main/kindle/custom-dash/bin/start.sh" target="_blank">start script</a> has comments explaining what it does. Some interesting things I've never worked with before:
 
-```bash
+```bash file=kindle/custom-dash/bin/start.sh|link=https://github.com/mariannefeng/kindle-hax/blob/main/kindle/custom-dash/bin/start.sh
 # ignore HUP since kual will exit after pressing start, and that might kill our long running script
 trap '' HUP
 ...
@@ -167,7 +167,7 @@ trap! Here's a <a href="https://www.linuxjournal.com/content/bash-trap-command" 
 
 Getting rtcwake to work was also annoying. For me, calling rtcwake on the default device (skipping `-d` flag) never worked, I had to list possible devices then choose a different one. The one that reacted to the rtcwake command was `rtc1` for me
 
-```bash
+```bash file=kindle/custom-dash/bin/start.sh|link=https://github.com/mariannefeng/kindle-hax/blob/main/kindle/custom-dash/bin/start.sh
 do_night_suspend() {
   sync
   rtcwake -d rtc1 -m mem -s "$WAKE_IN_SECONDS"
@@ -176,7 +176,7 @@ do_night_suspend() {
 
 The `refresh_screen` function is important. This is the whole reason we did all that server and image generation stuff earlier. It retrieves an image at an endpoint, clears the screen twice, draws the image from the server and positions it slightly lower on the screen to make room for the status bar up top. The last line displays the datetime, wifi status, and battery remaining.
 
-```bash
+```bash file=kindle/custom-dash/bin/start.sh|link=https://github.com/mariannefeng/kindle-hax/blob/main/kindle/custom-dash/bin/start.sh
 refresh_screen() {
   curl -k "$SCREEN_URL" -o "$DIR/screen.png"
   eips -c
@@ -189,7 +189,7 @@ refresh_screen() {
 
 This part of the script listens for the user pressing the menu button.
 
-```bash
+```bash file=kindle/custom-dash/bin/start.sh|link=https://github.com/mariannefeng/kindle-hax/blob/main/kindle/custom-dash/bin/start.sh
 script -q -c "evtest /dev/input/event2 2>&1" /dev/null | grep -m 1 -q "code 102 (Home), value 1" && "$DIR/stop.sh"
 ```
 

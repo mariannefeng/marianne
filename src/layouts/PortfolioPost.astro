@@ -131,14 +131,14 @@ const { title, description, headings } = Astro.props;
 				<slot />
 			</div>
 			
-			<div class="table-of-contents">
+			{headings?.length > 0 && <div class="table-of-contents">
 				<p class="table-of-contents-label"><span>jump to</span></p>
 				<ul class="headings">
 					{headings?.map((heading) => (
 						<li style={{ paddingLeft: `${(heading.depth - 1)* 10}px` }}><a href={`#${heading.slug}`}>{heading.text}</a></li>
 					))}
 				</ul>
-			</div>
+			</div>}
 
 		</article>
 	</main>
@@ -156,6 +156,8 @@ const { title, description, headings } = Astro.props;
 				Array.from(node.childNodes).forEach((child) => walkTextNodes(child, fn));
 			}
 		}
+
+		// remove extra spaces after quotes because the font is Chinese
 		document.querySelectorAll(".apostrophe-fix-root").forEach((root) => {
 			walkTextNodes(root, (textNode: Text) => {
 				const text = textNode.textContent ?? "";
@@ -183,21 +185,54 @@ const { title, description, headings } = Astro.props;
 			});
 		});
 
-		function randomHeadingLinkColor(): string {
-			const h = Math.random() * 360;
-			return `hsl(${h} 72% 36%)`;
-		}
+		// custom editor behavior
+		document.addEventListener("click", async function (e) {
+			// find the copy button
+			const target = e.target as HTMLElement;
+			let copyLink: HTMLElement | null = null;
+			if (target.closest) {
+				copyLink = target.closest("a.copy-link");
+			}
 
-		document.querySelectorAll("ul.headings li a").forEach((anchor) => {
-			const el = anchor as HTMLAnchorElement;
-			el.addEventListener("mouseenter", () => {
-				el.style.color = randomHeadingLinkColor();
-			});
-			el.addEventListener("mouseleave", () => {
-				el.style.removeProperty("color");
-			});
+			if (!copyLink) {
+				console.log("no copy link found");
+				return;
+			}
+
+			e.preventDefault();
+
+			// Find the associated code
+			const codeContainer = copyLink.closest(".code-container");
+			if (!codeContainer) return;
+
+			const code = codeContainer.querySelector("code");
+			if (!code) return;
+
+			const copyLinkText = codeContainer.querySelector<HTMLElement>("span.copy-link-text");
+			if (!copyLinkText) return;
+
+			let textToCopy = code.textContent ?? "";
+			let msgTimeout = 1000;
+
+			try {
+				await navigator.clipboard.write([
+					new ClipboardItem({ "text/plain": textToCopy }),
+				]);
+				copyLinkText.textContent = "copied!";
+			} catch (error) {
+				console.error("Error copying to clipboard: ", error);
+				copyLinkText.textContent = "error copying";
+				msgTimeout = 3000;
+			}
+
+			copyLinkText.style.setProperty("display", "block");
+
+			setTimeout(() => {
+				copyLinkText.style.setProperty("display", "none");
+			}, msgTimeout);
 		});
 
+		// table of contents
 		const proseEl = document.querySelector("article .prose") as HTMLElement | null;
 		const tocEl = document.querySelector("ul.headings") as HTMLElement | null;
 		if (proseEl !== null && tocEl !== null) {
@@ -242,5 +277,20 @@ const { title, description, headings } = Astro.props;
 
 			updateTocFill();
 		}
+
+		function randomHeadingLinkColor(): string {
+			const h = Math.random() * 360;
+			return `hsl(${h} 72% 36%)`;
+		}
+
+		document.querySelectorAll("ul.headings li a").forEach((anchor) => {
+			const el = anchor as HTMLAnchorElement;
+			el.addEventListener("mouseenter", () => {
+				el.style.color = randomHeadingLinkColor();
+			});
+			el.addEventListener("mouseleave", () => {
+				el.style.removeProperty("color");
+			});
+		});
 	</script>
 </BaseLayout>

@@ -5,6 +5,8 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import { defineConfig } from "astro/config";
+import shikiCodeMetadata from "./src/plugins/shiki";
+import rehypeCodeWrapper from "./src/plugins/rehype";
 
 export default defineConfig({
   site: "https://mariannefeng.com",
@@ -12,8 +14,10 @@ export default defineConfig({
   integrations: [react(), mdx(), sitemap()],
   markdown: {
     shikiConfig: {
+      transformers: [shikiCodeMetadata()],
       theme: "andromeeda",
       wrap: true,
     },
+    rehypePlugins: [rehypeCodeWrapper],
   },
 });
