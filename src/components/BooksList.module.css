@@ -26,6 +26,11 @@ ul.booksList {
   overflow: hidden;
 }
 
+ul.booksList a {
+  text-decoration: none;
+  max-width: 75%;
+}
+
 .booksListContainer {
   display: flex;
   gap: 1rem;
@@ -41,10 +46,6 @@ ul.booksList {
   padding-left: 0.5rem;
   color: darkslategrey;
   text-align: right;
-}
-
-.bookTitle {
-  max-width: 75%;
 }
 
 .bookHr {

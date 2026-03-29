@@ -165,7 +165,9 @@ export default function BooksList() {
                     </a>
 
                     <div className={styles.bookInfo}>
-                      <span className={styles.bookTitle}>{r.book_title}</span>
+                      <a href={r.book_link} target="_blank">
+                        <span className={styles.bookTitle}>{r.book_title}</span>
+                      </a>
                       <span className={styles.bookAuthor}>{r.book_author}</span>
                     </div>
                   </div>
