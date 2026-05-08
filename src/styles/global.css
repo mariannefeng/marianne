@@ -32,7 +32,7 @@
   box-sizing: border-box;
 }
 
-.tag-fun:hover {
+li:hover .tag-fun {
   animation: tag-fun-blink 0.3s linear infinite;
   border-color: var(--software);
 }
